@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .link-hover {
+    @apply cursor-pointer hover:underline;
+  }
+}
+
+body {
+  background-color: #F3F4F6;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark-theme {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: #0c0c0c;
+}
+.dark-theme img, .dark-theme video, .dark-theme svg {
+  filter: invert(1) hue-rotate(180deg);
+}

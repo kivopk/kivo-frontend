@@ -1,0 +1,12 @@
+export const customProducts = [
+    { id: 1, name: "Premium Smartphone Pro", price: 999, rating: 4.9, reviews: 342, description: "Titanium finish with edge-to-edge display.", image: "/images/kivo_smartphone_1776135022115.png", category: "Electronics" },
+    { id: 2, name: "Ultra-thin Carbon Laptop", price: 1499, rating: 4.8, reviews: 210, description: "Carbon fiber chassis and a brilliant glowing keyboard.", image: "/images/kivo_laptop_1776135255362.png", category: "Electronics" },
+    { id: 3, name: "Noise-Cancelling Headphones", price: 299, rating: 4.7, reviews: 156, description: "Minimalist matte black over-ear studio sound.", image: "/images/kivo_headphones_1776135310609.png", category: "Electronics" },
+    { id: 4, name: "4K Rugged Action Camera", price: 349, rating: 4.6, reviews: 98, description: "Sleek, modern, and entirely waterproof.", image: "/images/kivo_action_cam_1776135431064.png", category: "Electronics" },
+    { id: 5, name: "Futuristic Smart Home Hub", price: 199, rating: 4.5, reviews: 75, description: "Glass and aluminum centerpiece for your smart home.", image: "/images/kivo_smarthome_1776135444231.png", category: "Electronics" },
+    { id: 6, name: "RGB Mechanical Keyboard", price: 149, rating: 4.8, reviews: 430, description: "Tactile switches featuring fully transparent keycaps.", image: "/images/kivo_keyboard_1776135460925.png", category: "Electronics" },
+    { id: 7, name: "Ergonomic Wireless Mouse", price: 89, rating: 4.7, reviews: 112, description: "Minimalist white and silver tracking aesthetic.", image: "https://placehold.co/600x400/eeeeee/333333?text=Ergonomic+Mouse", category: "Electronics" },
+    { id: 8, name: "High-Fid Bluetooth Speaker", price: 249, rating: 4.6, reviews: 89, description: "Premium fabric mesh with rich wooden accents.", image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=600&auto=format&fit=crop", category: "Electronics" },
+    { id: 9, name: "Titanium Fitness Ring", price: 299, rating: 4.9, reviews: 504, description: "Subtle glowing edge sensor to track your wellness.", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop", category: "Electronics" },
+    { id: 10, name: "Designer Smart Glasses", price: 399, rating: 4.4, reviews: 65, description: "Fashionable eyewear with subtle tech embedded.", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=600&auto=format&fit=crop", category: "Clothing" }
+];
