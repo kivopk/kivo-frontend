@@ -10,6 +10,7 @@ const Header = () => {
     const [user, setUser] = useState(null);
     const [darkMode, setDarkMode] = useState(false);
     const [cartCount, setCartCount] = useState(0);
+    const [search, setSearch] = useState("");
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -85,7 +86,7 @@ const Header = () => {
 
                 {/* CATEGORIES */}
                 <div className="p-5 space-y-4">
-                    <button onClick={() => navigate("/")} className="block w-full text-left hover:text-gray-300">Home</button>
+                    <button onClick={() => navigate("/shop")} className="block w-full text-left hover:text-gray-300">Home</button>
 
                     <div>
                         <div
@@ -166,7 +167,7 @@ const Header = () => {
                     <div className="flex items-center">
                         {/* Logo */}
                         <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
-                            <Link to="/" className="flex items-center h-full pt-2 pb-1">
+                            <Link to="/shop" className="flex items-center h-full pt-2 pb-1">
                                 <img src={kivoLogo} alt="Kivo Logo" className="w-auto h-8 object-contain" />
                             </Link>
                         </div>
@@ -221,7 +222,7 @@ const Header = () => {
                         <Menu className="h-5 w-5 mr-1" />
                         All
                     </button>
-                    <Link to="/" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap">Home</Link>
+                    <Link to="/shop" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap">Home</Link>
                     <Link to="/deals" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap text-amazon_yellow font-bold">Today's Deals</Link>
 
                 </div>
