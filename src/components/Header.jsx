@@ -159,67 +159,59 @@ const Header = () => {
 
             {/* Header Main Bar */}
             <header className="flex flex-col text-white sticky top-0 z-50">
-                {/* Top Bar */}
-                <div className="flex items-center bg-[#131921] p-1 flex-grow">
-                    {/* Logo */}
-                    <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
-                        <Link to="/" className="flex items-center h-full pt-2 pb-1">
-                            <img src={kivoLogo} alt="Kivo Logo" className="w-auto h-8 object-contain" />
-                        </Link>
-                    </div>
+                {/* Top Bar - Full responsive wrapping to show all elements as on laptop */}
+                <div className="flex flex-wrap md:flex-nowrap items-center justify-between bg-[#131921] p-1 w-full gap-y-2 pb-2 md:pb-1">
+                    
+                    {/* Top Left: Logo & Deliver To */}
+                    <div className="flex items-center">
+                        {/* Logo */}
+                        <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
+                            <Link to="/" className="flex items-center h-full pt-2 pb-1">
+                                <img src={kivoLogo} alt="Kivo Logo" className="w-auto h-8 object-contain" />
+                            </Link>
+                        </div>
 
-                    {/* Deliver to */}
-                    <div className="hidden sm:flex items-center px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                        <MapPin className="h-5 w-5 mt-2 " />
-                        <div className="flex flex-col ml-1">
-                            <span className="text-[10px] text-gray-300">Deliver to</span>
-                            <span className="text-sm font-bold -mt-1 leading-tight text-white">Pakistan</span>
+                        {/* Deliver to - Visible on Mobile now */}
+                        <div className="flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                            <MapPin className="h-4 w-4 md:h-5 md:w-5 mt-2" />
+                            <div className="flex flex-col ml-1">
+                                <span className="text-[9px] md:text-[10px] text-gray-300">Deliver to</span>
+                                <span className="text-xs md:text-sm font-bold -mt-1 leading-tight text-white">Pakistan</span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Search */}
-                    <div className="hidden sm:flex items-center h-10 rounded-md flex-grow mx-4 cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden">
-                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs px-3 h-full border-r border-gray-300">
+                    {/* Search - Visible on Mobile now, wrapped to next line if small, or full width */}
+                    <div className="flex items-center h-10 min-w-[200px] flex-grow rounded-md mx-2 order-3 md:order-none cursor-pointer w-[95%] md:w-auto focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden">
+                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] md:text-xs px-2 md:px-3 h-full border-r border-gray-300 whitespace-nowrap">
                             All <ChevronDown className="h-3 w-3 ml-1" />
                         </div>
-                        <input className="p-2 h-full w-6 flex-grow flex-shrink focus:outline-none text-black px-4" type="text" placeholder="smart watch" />
-                        <div className="h-full px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
-                            <Search className="h-5 w-5 text-gray-800" />
+                        <input className="p-2 h-full w-6 flex-grow flex-shrink focus:outline-none text-black px-2 md:px-4 text-sm" type="text" placeholder="smart watch" value={search || ""} onChange={(e) => setSearch && setSearch(e.target.value)} />
+                        <div className="h-full px-3 md:px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
+                            <Search className="h-4 w-4 md:h-5 md:w-5 text-gray-800" />
                         </div>
                     </div>
 
-                    {/* Right Items */}
-                    <div className="text-white flex items-center text-xs space-x-1 mx-2">
-                        {/* Language - Removed per request */}
-
+                    {/* Right Items - Account, Orders, Cart pushed to the right corner */}
+                    <div className="flex items-center text-white text-[10px] md:text-xs space-x-1 md:space-x-2 mr-2">
                         {/* Account */}
                         <Link to="/account" className="flex flex-col px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
                             <span className="text-[11px] text-gray-200">Hello, {user ? user.username || user.first_name || user.email : "sign in"}</span>
                             <span className="font-bold text-[13px] leading-tight flex items-center">Account & Lists <ChevronDown className="h-3 w-3 text-gray-400 ml-1" /></span>
                         </Link>
 
-                        {/* Orders */}
-                        <Link to="/orders" className="hidden lg:flex flex-col px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                            <span className="text-[11px] text-gray-200">Returns</span>
-                            <span className="font-bold text-[13px] leading-tight">& Orders</span>
+                        {/* Orders - Now visible on mobile to perfectly match laptop view */}
+                        <Link to="/orders" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap">
+                            <span className="text-[10px] md:text-[11px] text-gray-200">Returns</span>
+                            <span className="font-bold text-[11px] md:text-[13px] leading-tight">& Orders</span>
                         </Link>
 
                         {/* Cart */}
-                        <Link to="/cart" className="relative flex items-center px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                        <Link to="/cart" className="relative flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer ml-auto">
                             <span className="absolute top-0 right-7 sm:right-9 w-4 h-4 text-[#f08804] bg-transparent text-center rounded-full font-bold flex justify-center items-center">{cartCount}</span>
-                            <ShoppingCart className="h-9 w-9 mt-1" />
-                            <span className="font-bold text-[14px] mt-4 ml-1 hidden sm:inline">Cart</span>
+                            <ShoppingCart className="h-8 w-8 md:h-9 md:w-9 mt-1" />
+                            <span className="font-bold text-[12px] md:text-[14px] mt-4 ml-1">Cart</span>
                         </Link>
-                    </div>
-                </div>
-                
-                {/* Mobile-only Search Bar (Visible only on small screens below sm breakpoint) */}
-                <div className="flex sm:hidden bg-[#131921] px-3 pb-3">
-                    <div className="flex items-center h-10 w-full rounded-md cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden">
-                        <input className="p-2 h-full flex-grow focus:outline-none text-black px-4" type="text" placeholder="Search Kivo..." />
-                        <div className="h-full px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
-                            <Search className="h-5 w-5 text-gray-800" />
-                        </div>
                     </div>
                 </div>
 
