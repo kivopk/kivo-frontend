@@ -160,60 +160,65 @@ const Header = () => {
 
             {/* Header Main Bar */}
             <header className="flex flex-col text-white sticky top-0 z-50">
-                {/* Top Bar - Full responsive wrapping to show all elements as on laptop */}
-                <div className="flex flex-wrap md:flex-nowrap items-center justify-between bg-[#131921] p-1 w-full gap-y-2 pb-2 md:pb-1">
+                {/* Top Bar - Refined Mobile Layout (2 Rows) */}
+                <div className="flex flex-wrap items-center justify-between bg-[#131921] px-2 py-2 w-full gap-y-3">
                     
-                    {/* Top Left: Logo & Deliver To */}
-                    <div className="flex items-center">
+                    {/* ROW 1 CONTAINER: Logo, Deliver, and Right Items */}
+                    <div className="flex w-full items-center justify-between">
+                        {/* Top Left: Logo & Deliver To */}
+                        <div className="flex items-center gap-1 md:gap-3">
                         {/* Logo */}
                         <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
-                            <Link to="/shop" className="flex items-center h-full pt-2 pb-1">
-                                <img src={kivoLogo} alt="Kivo Logo" className="w-auto h-8 object-contain" />
+                            <Link to="/shop" className="flex items-center pb-1">
+                                <img src={kivoLogo} alt="Kivo Logo" className="w-[50px] md:w-auto h-7 md:h-8 object-contain" />
                             </Link>
                         </div>
 
-                        {/* Deliver to - Visible on Mobile now */}
+                        {/* Deliver to */}
                         <div className="flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                            <MapPin className="h-4 w-4 md:h-5 md:w-5 mt-2" />
-                            <div className="flex flex-col ml-1">
-                                <span className="text-[9px] md:text-[10px] text-gray-300">Deliver to</span>
-                                <span className="text-xs md:text-sm font-bold -mt-1 leading-tight text-white">Pakistan</span>
+                            <MapPin className="h-4 w-4 md:h-5 md:w-5 md:mt-2 text-white" />
+                            <div className="flex flex-col ml-1 justify-center">
+                                <span className="text-[10px] text-gray-300 hidden md:block">Deliver to</span>
+                                <span className="text-[11px] md:text-sm font-bold md:-mt-1 leading-tight text-white">Pakistan</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Search - Visible on Mobile now, wrapped to next line if small, or full width */}
-                    <div className="flex items-center h-10 min-w-[200px] flex-grow rounded-md mx-2 order-3 md:order-none cursor-pointer w-[95%] md:w-auto focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden">
-                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] md:text-xs px-2 md:px-3 h-full border-r border-gray-300 whitespace-nowrap">
+                    {/* Search - Pushed to full width on mobile, inline on desktop */}
+                    <div className="flex items-center h-10 w-full md:w-auto md:flex-grow rounded-md mx-0 md:mx-4 cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden order-last md:order-none">
+                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[11px] md:text-xs px-2 md:px-3 h-full border-r border-gray-300 whitespace-nowrap">
                             All <ChevronDown className="h-3 w-3 ml-1" />
                         </div>
-                        <input className="p-2 h-full w-6 flex-grow flex-shrink focus:outline-none text-black px-2 md:px-4 text-sm" type="text" placeholder="smart watch" value={search || ""} onChange={(e) => setSearch && setSearch(e.target.value)} />
-                        <div className="h-full px-3 md:px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
+                        <input className="p-2 h-full flex-grow focus:outline-none text-black px-3 md:px-4 text-[13px] md:text-sm" type="text" placeholder="Search the store..." value={search || ""} onChange={(e) => setSearch && setSearch(e.target.value)} />
+                        <div className="h-full px-4 md:px-5 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
                             <Search className="h-4 w-4 md:h-5 md:w-5 text-gray-800" />
                         </div>
                     </div>
 
-                    {/* Right Items - Account, Orders, Cart pushed to the right corner */}
-                    <div className="flex items-center text-white text-[10px] md:text-xs space-x-1 md:space-x-2 mr-2">
+                    {/* Right Items - Account, Orders, Cart */}
+                    <div className="flex items-center text-white space-x-1 md:space-x-2">
                         {/* Account */}
-                        <Link to="/account" className="flex flex-col px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                            <span className="text-[11px] text-gray-200">Hello, {user ? user.username || user.first_name || user.email : "sign in"}</span>
-                            <span className="font-bold text-[13px] leading-tight flex items-center">Account & Lists <ChevronDown className="h-3 w-3 text-gray-400 ml-1" /></span>
+                        <Link to="/account" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer justify-center">
+                            <span className="text-[10px] text-gray-200 hidden md:block">Hello, {user ? user.username || user.first_name || user.email : "sign in"}</span>
+                            <span className="font-bold text-[11px] md:text-[13px] leading-tight flex items-center">Account <ChevronDown className="h-3 w-3 text-gray-400 ml-1 hidden md:block" /></span>
                         </Link>
 
-                        {/* Orders - Now visible on mobile to perfectly match laptop view */}
-                        <Link to="/orders" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap">
-                            <span className="text-[10px] md:text-[11px] text-gray-200">Returns</span>
-                            <span className="font-bold text-[11px] md:text-[13px] leading-tight">& Orders</span>
+                        {/* Orders */}
+                        <Link to="/orders" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer justify-center">
+                            <span className="text-[10px] text-gray-200 hidden md:block">Returns</span>
+                            <span className="font-bold text-[11px] md:text-[13px] leading-tight">Orders</span>
                         </Link>
 
                         {/* Cart */}
-                        <Link to="/cart" className="relative flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer ml-auto">
-                            <span className="absolute top-0 right-7 sm:right-9 w-4 h-4 text-[#f08804] bg-transparent text-center rounded-full font-bold flex justify-center items-center">{cartCount}</span>
-                            <ShoppingCart className="h-8 w-8 md:h-9 md:w-9 mt-1" />
-                            <span className="font-bold text-[12px] md:text-[14px] mt-4 ml-1">Cart</span>
+                        <Link to="/cart" className="relative flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                            <div className="relative">
+                                <span className="absolute -top-1 -right-1 w-4 h-4 text-[#f08804] bg-[#131921] rounded-full font-bold flex justify-center items-center text-[10px]">{cartCount}</span>
+                                <ShoppingCart className="h-6 w-6 md:h-8 md:w-8 text-white" />
+                            </div>
+                            <span className="font-bold text-[11px] md:text-[14px] mt-2 md:mt-3 ml-1">Cart</span>
                         </Link>
                     </div>
+                    </div> {/* End of ROW 1 CONTAINER */}
                 </div>
 
                 {/* Bottom Nav */}
