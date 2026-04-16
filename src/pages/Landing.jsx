@@ -33,7 +33,7 @@ const Landing = () => {
     return (
         <div className="bg-black text-white min-h-screen font-sans selection:bg-amazon_yellow selection:text-black scroll-smooth">
             {/* MINIMALIST HEADER */}
-            <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-6 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm">
+            <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-8 py-4 md:py-6 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm">
                 <div className="text-3xl font-black tracking-widest uppercase cursor-pointer" onClick={() => navigate("/")}>
                     Kivo
                 </div>
@@ -83,23 +83,23 @@ const Landing = () => {
             </section>
 
             {/* SCREEN 2: WHAT WE DO */}
-            <section className="min-h-screen w-full bg-[#0a0a0a] flex items-center py-24 px-8 md:px-24">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <section className="min-h-screen w-full bg-[#0a0a0a] flex flex-col justify-center py-20 px-6 md:px-24">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16">
                     <motion.div 
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
+                        viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 1 }}
-                        className="flex-1"
+                        className="flex-1 text-center md:text-left"
                     >
-                        <h2 className="text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-4">What We Do</h2>
-                        <h3 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
+                        <h2 className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-4">What We Do</h2>
+                        <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
                             Premium Goods. <br /> Unbeatable Value.
                         </h3>
-                        <p className="text-gray-400 text-lg leading-relaxed font-light mb-10 max-w-lg">
+                        <p className="text-gray-400 text-base md:text-lg leading-relaxed font-light mb-8 md:mb-10 max-w-lg mx-auto md:mx-0">
                             We bring you everything you need—from cutting-edge electronics to everyday essentials and fashion—at incredibly affordable prices. KIVO is your ultimate destination for high-quality, diverse products without the premium price tag.
                         </p>
-                        <button onClick={() => navigate("/login")} className="group flex items-center gap-4 text-lg uppercase tracking-widest font-bold pb-2 border-b-2 border-white/30 hover:border-white transition-all">
+                        <button onClick={() => navigate("/login")} className="group inline-flex items-center gap-4 text-base md:text-lg uppercase tracking-widest font-bold pb-2 border-b-2 border-white/30 hover:border-white transition-all">
                             Enter the Store
                             <span className="group-hover:translate-x-2 transition-transform">→</span>
                         </button>
@@ -152,22 +152,22 @@ const Landing = () => {
             </section>
 
             {/* SCREEN 4: IMAGE SLIDER (MARQUEE) */}
-            <section className="min-h-screen w-full bg-[#111] flex flex-col justify-center py-24 overflow-hidden">
-                <div className="text-center mb-16 px-6">
-                    <h2 className="text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-4">The Collection</h2>
-                    <h3 className="text-4xl font-bold">Uncompromising Visuality</h3>
+            <section className="min-h-screen w-full bg-[#111] flex flex-col justify-center py-16 md:py-24 overflow-hidden">
+                <div className="text-center mb-10 md:mb-16 px-4">
+                    <h2 className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-3 md:mb-4">The Collection</h2>
+                    <h3 className="text-3xl md:text-4xl font-bold">Uncompromising Visuality</h3>
                 </div>
 
-                <div className="relative w-full flex overflow-x-hidden border-y border-white/10 py-10">
+                <div className="relative w-full flex overflow-x-hidden border-y border-white/10 py-6 md:py-10">
                     <motion.div 
-                        className="flex gap-8 whitespace-nowrap"
+                        className="flex gap-4 md:gap-8 whitespace-nowrap"
                         animate={{ x: ["0%", "-50%"] }}
                         transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
                         style={{ width: "fit-content" }}
                     >
                         {/* Render twice for seamless loop */}
                         {[...sliderImages, ...sliderImages].map((imgSrc, idx) => (
-                            <div key={idx} className="relative w-[300px] h-[400px] md:w-[400px] md:h-[500px] flex-shrink-0 group overflow-hidden rounded-md bg-black">
+                            <div key={idx} className="relative w-[240px] h-[320px] md:w-[400px] md:h-[500px] flex-shrink-0 group overflow-hidden rounded-md bg-black">
                                 <img 
                                     src={imgSrc} 
                                     className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
