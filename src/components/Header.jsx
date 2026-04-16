@@ -160,73 +160,66 @@ const Header = () => {
 
             {/* Header Main Bar */}
             <header className="flex flex-col text-white sticky top-0 z-50">
-                {/* Top Bar - Refined Mobile Layout (2 Rows) */}
-                <div className="flex flex-wrap items-center justify-between bg-[#131921] p-2 md:p-1 w-full gap-y-2 md:gap-y-0">
-                    
-                    {/* Top Left: Logo & Deliver To */}
-                    <div className="flex items-center gap-1 md:gap-3">
-                        {/* Logo */}
-                        <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
-                            <Link to="/shop" className="flex items-center pb-1">
-                                <img src={kivoLogo} alt="Kivo Logo" className="w-[50px] md:w-auto h-7 md:h-8 object-contain" />
-                            </Link>
-                        </div>
+                {/* Top Bar - Identical to Desktop but swipeable on Mobile */}
+                <div className="flex items-center bg-[#131921] p-1 flex-grow overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    {/* Logo */}
+                    <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto flex-shrink-0">
+                        <Link to="/shop" className="flex items-center h-full pt-2 pb-1">
+                            <img src={kivoLogo} alt="Kivo Logo" className="w-auto h-8 object-contain" />
+                        </Link>
+                    </div>
 
-                        {/* Deliver to */}
-                        <div className="flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                            <MapPin className="h-4 w-4 md:h-5 md:w-5 md:mt-2 text-white" />
-                            <div className="flex flex-col ml-1 justify-center">
-                                <span className="text-[10px] text-gray-300 hidden md:block">Deliver to</span>
-                                <span className="text-[11px] md:text-sm font-bold md:-mt-1 leading-tight text-white">Pakistan</span>
-                            </div>
+                    {/* Deliver to */}
+                    <div className="flex items-center px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer flex-shrink-0">
+                        <MapPin className="h-5 w-5 mt-2 " />
+                        <div className="flex flex-col ml-1">
+                            <span className="text-[10px] text-gray-300">Deliver to</span>
+                            <span className="text-sm font-bold -mt-1 leading-tight text-white">Pakistan</span>
                         </div>
                     </div>
 
-                    {/* Search - Pushed to full width on mobile, inline on desktop */}
-                    <div className="flex items-center h-10 w-full md:w-auto md:flex-grow rounded-md mx-0 md:mx-4 cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden order-last md:order-none">
-                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[11px] md:text-xs px-2 md:px-3 h-full border-r border-gray-300 whitespace-nowrap">
+                    {/* Search */}
+                    <div className="flex items-center h-10 w-[250px] md:w-auto rounded-md flex-grow mx-4 cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden flex-shrink-0">
+                        <div className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs px-3 h-full border-r border-gray-300">
                             All <ChevronDown className="h-3 w-3 ml-1" />
                         </div>
-                        <input className="p-2 h-full flex-grow focus:outline-none text-black px-3 md:px-4 text-[13px] md:text-sm" type="text" placeholder="Search the store..." value={search || ""} onChange={(e) => setSearch && setSearch(e.target.value)} />
-                        <div className="h-full px-4 md:px-5 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
-                            <Search className="h-4 w-4 md:h-5 md:w-5 text-gray-800" />
+                        <input className="p-2 h-full w-6 flex-grow flex-shrink focus:outline-none text-black px-4" type="text" placeholder="Search Kivo..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                        <div className="h-full px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
+                            <Search className="h-5 w-5 text-gray-800" />
                         </div>
                     </div>
 
-                    {/* Right Items - Account, Orders, Cart */}
-                    <div className="flex items-center text-white space-x-1 md:space-x-2">
+                    {/* Right Items */}
+                    <div className="text-white flex items-center text-xs space-x-1 mx-2 flex-shrink-0">
                         {/* Account */}
-                        <Link to="/account" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer justify-center">
-                            <span className="text-[10px] text-gray-200 hidden md:block">Hello, {user ? user.username || user.first_name || user.email : "sign in"}</span>
-                            <span className="font-bold text-[11px] md:text-[13px] leading-tight flex items-center">Account <ChevronDown className="h-3 w-3 text-gray-400 ml-1 hidden md:block" /></span>
+                        <Link to="/account" className="flex flex-col px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                            <span className="text-[11px] text-gray-200">Hello, {user ? user.username || user.first_name || user.email : "sign in"}</span>
+                            <span className="font-bold text-[13px] leading-tight flex items-center">Account & Lists <ChevronDown className="h-3 w-3 text-gray-400 ml-1" /></span>
                         </Link>
 
                         {/* Orders */}
-                        <Link to="/orders" className="flex flex-col px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer justify-center">
-                            <span className="text-[10px] text-gray-200 hidden md:block">Returns</span>
-                            <span className="font-bold text-[11px] md:text-[13px] leading-tight">Orders</span>
+                        <Link to="/orders" className="flex flex-col px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                            <span className="text-[11px] text-gray-200">Returns</span>
+                            <span className="font-bold text-[13px] leading-tight">& Orders</span>
                         </Link>
 
                         {/* Cart */}
-                        <Link to="/cart" className="relative flex items-center px-1 md:px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
-                            <div className="relative">
-                                <span className="absolute -top-1 -right-1 w-4 h-4 text-[#f08804] bg-[#131921] rounded-full font-bold flex justify-center items-center text-[10px]">{cartCount}</span>
-                                <ShoppingCart className="h-6 w-6 md:h-8 md:w-8 text-white" />
-                            </div>
-                            <span className="font-bold text-[11px] md:text-[14px] mt-2 md:mt-3 ml-1">Cart</span>
+                        <Link to="/cart" className="relative flex items-center px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer">
+                            <span className="absolute top-0 right-7 sm:right-9 w-4 h-4 text-[#f08804] bg-transparent text-center rounded-full font-bold flex justify-center items-center">{cartCount}</span>
+                            <ShoppingCart className="h-9 w-9 mt-1" />
+                            <span className="font-bold text-[14px] mt-4 ml-1">Cart</span>
                         </Link>
                     </div>
                 </div>
 
                 {/* Bottom Nav */}
-                <div className="flex items-center space-x-1 p-1 pl-4 bg-[#232f3e] text-white text-sm">
-                    <button onClick={() => setSidebarOpen(true)} className="flex items-center font-bold px-2 py-1 border border-transparent hover:border-white rounded-sm whitespace-nowrap">
+                <div className="flex items-center space-x-1 p-1 pl-4 bg-[#232f3e] text-white text-sm overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <button onClick={() => setSidebarOpen(true)} className="flex items-center font-bold px-2 py-1 border border-transparent hover:border-white rounded-sm whitespace-nowrap flex-shrink-0">
                         <Menu className="h-5 w-5 mr-1" />
                         All
                     </button>
-                    <Link to="/shop" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap">Home</Link>
-                    <Link to="/deals" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap text-amazon_yellow font-bold">Today's Deals</Link>
-
+                    <Link to="/shop" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap flex-shrink-0">Home</Link>
+                    <Link to="/deals" className="px-2 py-1 border border-transparent hover:border-white rounded-sm cursor-pointer whitespace-nowrap text-amazon_yellow font-bold flex-shrink-0">Today's Deals</Link>
                 </div>
             </header>
         </>
