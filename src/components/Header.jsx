@@ -212,6 +212,16 @@ const Header = () => {
                         </Link>
                     </div>
                 </div>
+                
+                {/* Mobile-only Search Bar (Visible only on small screens below sm breakpoint) */}
+                <div className="flex sm:hidden bg-[#131921] px-3 pb-3">
+                    <div className="flex items-center h-10 w-full rounded-md cursor-pointer focus-within:ring-2 focus-within:ring-yellow-400 bg-white overflow-hidden">
+                        <input className="p-2 h-full flex-grow focus:outline-none text-black px-4" type="text" placeholder="Search Kivo..." />
+                        <div className="h-full px-4 flex items-center justify-center bg-[#febd69] hover:bg-[#f3a847] transition-colors">
+                            <Search className="h-5 w-5 text-gray-800" />
+                        </div>
+                    </div>
+                </div>
 
                 {/* Bottom Nav */}
                 <div className="flex items-center space-x-1 p-1 pl-4 bg-[#232f3e] text-white text-sm">
