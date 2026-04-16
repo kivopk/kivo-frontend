@@ -26,7 +26,7 @@ const Login = () => {
             localStorage.setItem("access_token", response.token);
 
             alert("Login successful!");
-            navigate("/"); // redirect to homepage
+            navigate("/shop"); // redirect to homepage
         } catch (err) {
             console.error(err);
             if (err.message && err.message.includes("is not valid JSON")) {
