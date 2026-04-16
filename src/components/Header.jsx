@@ -161,12 +161,10 @@ const Header = () => {
             {/* Header Main Bar */}
             <header className="flex flex-col text-white sticky top-0 z-50">
                 {/* Top Bar - Refined Mobile Layout (2 Rows) */}
-                <div className="flex flex-wrap items-center justify-between bg-[#131921] px-2 py-2 w-full gap-y-3">
+                <div className="flex flex-wrap items-center justify-between bg-[#131921] p-2 md:p-1 w-full gap-y-2 md:gap-y-0">
                     
-                    {/* ROW 1 CONTAINER: Logo, Deliver, and Right Items */}
-                    <div className="flex w-full items-center justify-between">
-                        {/* Top Left: Logo & Deliver To */}
-                        <div className="flex items-center gap-1 md:gap-3">
+                    {/* Top Left: Logo & Deliver To */}
+                    <div className="flex items-center gap-1 md:gap-3">
                         {/* Logo */}
                         <div className="flex items-center sm:mx-2 px-2 border border-transparent hover:border-white rounded-sm cursor-pointer h-[80%] my-auto">
                             <Link to="/shop" className="flex items-center pb-1">
@@ -218,7 +216,6 @@ const Header = () => {
                             <span className="font-bold text-[11px] md:text-[14px] mt-2 md:mt-3 ml-1">Cart</span>
                         </Link>
                     </div>
-                    </div> {/* End of ROW 1 CONTAINER */}
                 </div>
 
                 {/* Bottom Nav */}
