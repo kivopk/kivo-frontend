@@ -123,20 +123,20 @@ const Home = () => {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-                    className="relative z-20 text-center max-w-4xl px-6"
+                    className="relative z-20 text-center max-w-4xl px-4 md:px-6"
                 >
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium tracking-wide mb-6">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs md:text-sm font-medium tracking-wide mb-4 md:mb-6">
                         <Zap className="w-4 h-4 text-amazon_yellow" /> New Drops Unlocked
                     </span>
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 leading-tight">
+                    <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter text-white mb-4 md:mb-6 leading-tight">
                         Define Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-amazon_yellow to-yellow-300">Aesthetic</span>
                     </h1>
-                    <p className="mt-4 text-lg md:text-2xl text-gray-300 font-light tracking-wide max-w-2xl mx-auto">
+                    <p className="mt-4 text-base md:text-xl lg:text-2xl text-gray-300 font-light tracking-wide max-w-2xl mx-auto px-4 md:px-0">
                         Elevate your everyday with premium, meticulously crafted technology. Minimalist design meets sheer performance.
                     </p>
                     <button
                         onClick={() => navigate("/products")}
-                        className="mt-10 px-10 py-4 bg-white hover:bg-gray-100 text-black font-semibold rounded-full transition-all duration-300 transform hover:scale-[1.03] shadow-[0_0_40px_rgba(255,255,255,0.3)] text-lg"
+                        className="mt-8 md:mt-10 px-8 md:px-10 py-3 md:py-4 bg-white hover:bg-gray-100 text-black font-semibold rounded-full transition-all duration-300 transform hover:scale-[1.03] shadow-[0_0_40px_rgba(255,255,255,0.3)] text-base md:text-lg"
                     >
                         Explore the Collection
                     </button>
@@ -155,21 +155,21 @@ const Home = () => {
             </section>
 
             {/* CURATED COLLECTION HEADER & SEARCH */}
-            <div className="max-w-7xl mx-auto px-6 pt-24 pb-12 w-full flex flex-col md:flex-row md:items-end justify-between border-b border-gray-200">
-                <div className="max-w-xl">
-                    <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">Curated Collection</h2>
-                    <p className="mt-4 text-gray-500 text-lg font-light">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-8 md:pb-12 w-full flex flex-col md:flex-row md:items-end justify-between border-b border-gray-200">
+                <div className="max-w-xl text-center md:text-left">
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900">Curated Collection</h2>
+                    <p className="mt-3 md:mt-4 text-gray-500 text-base md:text-lg font-light">
                         Our latest arrivals designed to integrate seamlessly into your lifestyle. Uncompromised quality.
                     </p>
                 </div>
-                <div className="mt-8 md:mt-0 relative w-full md:w-96 group">
-                    <input
-                        type="text"
-                        placeholder="Search our catalog..."
-                        className="w-full pl-5 pr-12 py-4 bg-white border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-black rounded-2xl shadow-sm outline-none transition-all duration-300 font-medium text-gray-800"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+                <div className="mt-6 md:mt-0 relative w-full md:w-96 group">
+                        <input
+                            type="text"
+                            placeholder="Search our catalog..."
+                            className="w-full pl-5 pr-12 py-3 md:py-4 bg-white border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-black rounded-2xl shadow-sm outline-none transition-all duration-300 font-medium text-gray-800 text-sm md:text-base"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 text-gray-400 group-focus-within:text-black transition-colors">
                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </div>
@@ -177,7 +177,7 @@ const Home = () => {
             </div>
 
             {/* PREMIUM PRODUCT GRID */}
-            <section className="max-w-7xl mx-auto px-6 py-16 w-full">
+            <section className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16 w-full">
                 <motion.div 
                     variants={containerVariants}
                     initial="hidden"
@@ -269,13 +269,13 @@ const Home = () => {
             </section>
 
             {/* Newsletter CTA Section */}
-            <section className="bg-gray-900 py-20 mt-auto">
-                <div className="max-w-4xl mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Become an Insider</h2>
-                    <p className="text-gray-400 mb-10 text-lg font-light w-3/4 mx-auto">Subscribe to our newsletter and get early access to new drops, exclusive discounts, and uncompromised style.</p>
+            <section className="bg-gray-900 py-16 md:py-20 mt-auto">
+                <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
+                    <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">Become an Insider</h2>
+                    <p className="text-gray-400 mb-8 md:mb-10 text-base md:text-lg font-light w-full md:w-3/4 mx-auto">Subscribe to our newsletter and get early access to new drops, exclusive discounts, and uncompromised style.</p>
                     <div className="flex max-w-md mx-auto relative">
-                        <input type="email" placeholder="Email Address" className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 px-6 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-amazon_yellow focus:border-transparent transition-all backdrop-blur-sm pr-36" />
-                        <button className="absolute right-1.5 top-1.5 bottom-1.5 bg-amazon_yellow text-black font-bold px-6 rounded-full hover:scale-105 transition-transform duration-300 hover:bg-yellow-400">Join</button>
+                        <input type="email" placeholder="Email Address" className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 px-4 md:px-6 py-3 md:py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-amazon_yellow focus:border-transparent transition-all backdrop-blur-sm pr-28 md:pr-36 text-sm md:text-base" />
+                        <button className="absolute right-1.5 top-1.5 bottom-1.5 bg-amazon_yellow text-black font-bold px-4 md:px-6 rounded-full hover:scale-105 transition-transform duration-300 hover:bg-yellow-400 text-sm md:text-base">Join</button>
                     </div>
                 </div>
             </section>
