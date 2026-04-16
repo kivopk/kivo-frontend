@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className="bg-[#232f3e] text-white pt-16 pb-8 border-t border-gray-800 font-sans mt-auto">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 border-b border-gray-700 pb-12">
-                
+
                 {/* Brand Column */}
                 <div className="flex flex-col space-y-4">
                     <h2 className="text-3xl font-black tracking-tighter text-white">Kivo</h2>
@@ -49,7 +49,7 @@ const Footer = () => {
                     <h3 className="text-lg font-bold text-white mb-2">Contact Us</h3>
                     <div className="flex items-start gap-3 text-gray-400">
                         <MapPin className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
-                        <span className="text-sm">123 Innovation Drive<br/>Tech District, TX 75001</span>
+                        <span className="text-sm">123 Innovation Drive<br />Tech District, TX 75001</span>
                     </div>
                     <div className="flex items-center gap-3 text-gray-400">
                         <Phone className="w-5 h-5 text-gray-400 shrink-0" />

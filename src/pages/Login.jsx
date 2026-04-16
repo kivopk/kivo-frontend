@@ -29,7 +29,11 @@ const Login = () => {
             navigate("/"); // redirect to homepage
         } catch (err) {
             console.error(err);
-            setError(err.message || "Invalid credentials. Please try again.");
+            if (err.message && err.message.includes("is not valid JSON")) {
+                setError("API Configuration Error: The server returned an HTML error page. Please correctly set your VITE_API_URL environment variable on your live server to point to your Railway backend (e.g. https://your-railway-url.app/trpc).");
+            } else {
+                setError(err.message || "Invalid credentials. Please try again.");
+            }
         }
     };
 
