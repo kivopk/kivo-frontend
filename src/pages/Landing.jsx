@@ -6,193 +6,197 @@ import Footer from "../components/Footer";
 const Landing = () => {
     const navigate = useNavigate();
 
-    const [currentHero, setCurrentHero] = useState(0);
-    const heroImages = [
-        "/images/kivo_smartphone_1776135022115.png",
-        "/images/kivo_smarthome_1776135444231.png",
-        "/images/kivo_action_cam_1776135431064.png"
-    ];
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentHero((prev) => (prev + 1) % heroImages.length);
-        }, 5000);
-        return () => clearInterval(timer);
-    }, [heroImages.length]);
-
-    // 6 images for the infinite sliding marquee. Emphasizing all kinds of products.
+    // Secondary gaming images for the marquee
     const sliderImages = [
-        "/images/kivo_headphones_1776135310609.png",
-        "/images/kivo_banner_fashion_1776117876451.png",
+        "/images/gaming/ui_elements.png",
         "/images/kivo_keyboard_1776135460925.png",
-        "/images/kivo_banner_electronics_1776117863064.png",
+        "/images/kivo_headphones_1776135310609.png",
+        "/images/gaming/hero.png",
         "/images/kivo_action_cam_1776135431064.png",
-        "/images/kivo_banner_delivery_1776117995968.png",
+        "/images/gaming/ui_elements.png",
     ];
 
     return (
-        <div className="bg-black text-white min-h-screen font-sans selection:bg-amazon_yellow selection:text-black scroll-smooth">
-            {/* MINIMALIST HEADER */}
-            <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-8 py-4 md:py-6 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm">
-                <div className="text-3xl font-black tracking-widest uppercase cursor-pointer" onClick={() => navigate("/")}>
-                    Kivo
-                </div>
-                <div className="flex items-center gap-6 text-sm font-medium uppercase tracking-wide">
-                    <Link to="/login" className="hover:text-amazon_yellow transition-colors duration-300">
-                        Sign In
+        <div className="bg-deep_void text-white min-h-screen font-sans selection:bg-cyber_cyan selection:text-black scroll-smooth">
+            {/* FUTURISTIC HEADER */}
+            <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-deep_void/40 backdrop-blur-xl border-b border-white/5">
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-3xl font-black tracking-tighter uppercase cursor-pointer flex items-center gap-2 group" 
+                    onClick={() => navigate("/")}
+                >
+                    <span className="bg-gradient-to-r from-neon_purple to-cyber_cyan bg-clip-text text-transparent group-hover:neon-glow transition-all duration-300 font-orbitron">
+                        Kivo
+                    </span>
+                    <span className="text-[10px] bg-cyber_cyan text-black px-1.5 py-0.5 rounded font-bold tracking-widest">PRO</span>
+                </motion.div>
+                
+                <nav className="hidden md:flex items-center gap-10 text-sm font-bold uppercase tracking-[0.2em] font-orbitron">
+                    <Link to="/deals" className="link-hover">Store</Link>
+                    <Link to="/shop" className="link-hover">Library</Link>
+                    <Link to="/lists" className="link-hover">Community</Link>
+                </nav>
+
+                <div className="flex items-center gap-6">
+                    <Link to="/login" className="text-sm font-bold uppercase tracking-widest hover:text-cyber_cyan transition-colors font-orbitron">
+                        Login
                     </Link>
-                    <Link to="/signup" className="px-5 py-2 bg-white text-black rounded-full hover:bg-gray-200 transition-colors duration-300">
-                        Sign Up
+                    <Link to="/signup" className="gaming-btn text-xs">
+                        Join Now
                     </Link>
                 </div>
             </header>
 
-            {/* SCREEN 1: HERO */}
-            <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
-                <AnimatePresence mode="popLayout">
-                    <motion.img
-                        key={currentHero}
-                        initial={{ scale: 1.15, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 0.8 }}
-                        exit={{ opacity: 0, transition: { duration: 1.5 } }}
-                        transition={{ 
-                            opacity: { duration: 2, ease: "easeInOut" },
-                            scale: { duration: 10, ease: "linear" }
-                        }}
-                        src={heroImages[currentHero]}
-                        alt="Kivo Vibrant Aesthetics"
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-                </AnimatePresence>
-                {/* Clean gradient overlay, no text to let the vibrant image attract the user completely */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/60 z-10"></div>
-                <div className="relative z-20 flex flex-col items-center mt-32">
-                     {/* Empty text block as requested to let colors attract the user */}
-                </div>
-                
-                {/* Hero Nav Dots */}
-                <div className="absolute bottom-10 z-20 flex space-x-4">
-                    {heroImages.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setCurrentHero(idx)}
-                            className={`h-1.5 rounded-full transition-all duration-500 ease-out ${idx === currentHero ? "bg-white w-12" : "bg-white/30 hover:bg-white/60 w-6"}`}
-                        />
-                    ))}
-                </div>
-            </section>
-
-            {/* SCREEN 2: WHAT WE DO */}
-            <section className="min-h-screen w-full bg-[#0a0a0a] flex flex-col justify-center py-20 px-6 md:px-24">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                    <motion.div 
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 1 }}
-                        className="flex-1 text-center md:text-left"
-                    >
-                        <h2 className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-4">What We Do</h2>
-                        <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
-                            Premium Goods. <br /> Unbeatable Value.
-                        </h3>
-                        <p className="text-gray-400 text-base md:text-lg leading-relaxed font-light mb-8 md:mb-10 max-w-lg mx-auto md:mx-0">
-                            We bring you everything you need—from cutting-edge electronics to everyday essentials and fashion—at incredibly affordable prices. KIVO is your ultimate destination for high-quality, diverse products without the premium price tag.
-                        </p>
-                        <button onClick={() => navigate("/login")} className="group inline-flex items-center gap-4 text-base md:text-lg uppercase tracking-widest font-bold pb-2 border-b-2 border-white/30 hover:border-white transition-all">
-                            Enter the Store
-                            <span className="group-hover:translate-x-2 transition-transform">→</span>
-                        </button>
-                    </motion.div>
-
-                    <motion.div 
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 1 }}
-                        className="flex-1 relative aspect-[4/5] w-full"
-                    >
-                        <img 
-                            src="/images/landing_what_we_do.png" 
-                            alt="Designer Workspace" 
-                            className="absolute inset-0 w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 rounded-lg"
-                        />
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* SCREEN 3: ELEGANT VISUAL SECTION */}
-            <section className="h-screen w-full bg-[#050505] flex items-center justify-center relative overflow-hidden">
-                <motion.img 
-                    initial={{ scale: 1.1, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 0.75 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ 
-                        opacity: { duration: 1.5, ease: "easeOut" },
-                        scale: { duration: 8, ease: "linear" }
-                    }}
-                    src="/images/kivo_laptop_1776135255362.png"
-                    alt="Latest Technology at Low Cost"
-                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-50"
-                />
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent z-10"></div>
-                
+            {/* HERO SECTION: 3D IMMERSIVE */}
+            <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+                {/* Background 3D Render */}
                 <motion.div 
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="relative z-20 text-center max-w-4xl px-6 pb-20"
+                    initial={{ scale: 1.2, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 0.6 }}
+                    transition={{ duration: 2, ease: "easeOut" }}
+                    className="absolute inset-0 z-0"
                 >
-                    <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-white drop-shadow-xl">
-                        A NEW ERA OF STYLE.
-                    </h2>
+                    <img 
+                        src="/images/gaming/hero.png" 
+                        alt="Gaming World" 
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-deep_void via-transparent to-deep_void"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-deep_void via-transparent to-deep_void"></div>
+                </motion.div>
+
+                {/* Floating UI Elements Decor */}
+                <motion.div
+                    animate={{ 
+                        y: [0, -20, 0],
+                        rotate: [0, 5, 0]
+                    }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-1/4 right-1/4 w-64 h-64 opacity-20 blur-3xl bg-neon_purple rounded-full z-0"
+                ></motion.div>
+                <motion.div
+                    animate={{ 
+                        y: [0, 30, 0],
+                        rotate: [0, -10, 0]
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute bottom-1/4 left-1/4 w-96 h-96 opacity-10 blur-3xl bg-cyber_cyan rounded-full z-0"
+                ></motion.div>
+
+                <div className="relative z-10 text-center px-4 max-w-5xl">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                    >
+                        <h2 className="text-cyber_cyan font-orbitron font-black tracking-[0.5em] uppercase text-sm mb-6 animate-pulse">
+                            Level Up Your Reality
+                        </h2>
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter leading-none font-orbitron">
+                            ULTIMATE <br />
+                            <span className="bg-gradient-to-r from-neon_purple via-neon_pink to-cyber_cyan bg-clip-text text-transparent italic">
+                                GAMING
+                            </span>
+                        </h1>
+                        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                            Discover the next generation of digital adventures. From AAA blockbusters to indie gems, Kivo brings you the world's best games at unbeatable prices.
+                        </p>
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+                            <button 
+                                onClick={() => navigate("/shop")}
+                                className="gaming-btn group flex items-center gap-3"
+                            >
+                                Browse Catalog
+                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                            </button>
+                            <button 
+                                onClick={() => navigate("/deals")}
+                                className="px-8 py-3 border border-white/20 rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition-all font-orbitron text-xs"
+                            >
+                                View Deals
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Scroll Indicator */}
+                <motion.div 
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+                >
+                    <span className="text-[10px] uppercase tracking-[0.3em] font-orbitron">Explore</span>
+                    <div className="w-[1px] h-12 bg-gradient-to-b from-cyber_cyan to-transparent"></div>
                 </motion.div>
             </section>
 
-            {/* SCREEN 4: IMAGE SLIDER (MARQUEE) */}
-            <section className="min-h-screen w-full bg-[#111] flex flex-col justify-center py-16 md:py-24 overflow-hidden">
-                <div className="text-center mb-10 md:mb-16 px-4">
-                    <h2 className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amazon_yellow mb-3 md:mb-4">The Collection</h2>
-                    <h3 className="text-3xl md:text-4xl font-bold">Uncompromising Visuality</h3>
-                </div>
+            {/* SECTION 2: FEATURED GAMES GRID */}
+            <section className="py-32 px-6 md:px-12 bg-deep_void relative">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                        <div>
+                            <h2 className="text-cyber_cyan font-orbitron font-bold tracking-widest uppercase text-xs mb-4">Trending Now</h2>
+                            <h3 className="text-4xl md:text-5xl font-black font-orbitron">NEW RELEASES</h3>
+                        </div>
+                        <button className="text-sm font-bold uppercase tracking-widest border-b border-cyber_cyan pb-1 text-cyber_cyan hover:text-white transition-colors font-orbitron">
+                            View All Games
+                        </button>
+                    </div>
 
-                <div className="relative w-full flex overflow-x-hidden border-y border-white/10 py-6 md:py-10">
-                    <motion.div 
-                        className="flex gap-4 md:gap-8 whitespace-nowrap"
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-                        style={{ width: "fit-content" }}
-                    >
-                        {/* Render twice for seamless loop */}
-                        {[...sliderImages, ...sliderImages].map((imgSrc, idx) => (
-                            <div key={idx} className="relative w-[240px] h-[320px] md:w-[400px] md:h-[500px] flex-shrink-0 group overflow-hidden rounded-md bg-black">
-                                <img 
-                                    src={imgSrc} 
-                                    className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
-                                    alt={`Gallery image ${idx}`} 
-                                />
-                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[1, 2, 3].map((i) => (
+                            <motion.div 
+                                key={i}
+                                whileHover={{ y: -10 }}
+                                className="glass-card overflow-hidden group cursor-pointer"
+                            >
+                                <div className="aspect-[16/9] relative overflow-hidden">
+                                    <img 
+                                        src={i === 1 ? "/images/gaming/ui_elements.png" : i === 2 ? "/images/kivo_keyboard_1776135460925.png" : "/images/kivo_headphones_1776135310609.png"}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                                        alt="Game"
+                                    />
+                                    <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded text-xs font-bold text-cyber_cyan border border-cyber_cyan/30 font-orbitron">
+                                        -20%
+                                    </div>
+                                </div>
+                                <div className="p-6">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h4 className="text-xl font-bold font-orbitron">CYBERPUNK 2077</h4>
+                                        <span className="text-cyber_cyan font-bold">$49.99</span>
+                                    </div>
+                                    <p className="text-gray-500 text-sm mb-6">Action RPG, Open World, Sci-fi</p>
+                                    <button className="w-full py-3 bg-white/5 hover:bg-cyber_cyan hover:text-black transition-colors font-bold uppercase tracking-widest text-xs rounded-lg font-orbitron border border-white/10 group-hover:border-cyber_cyan">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </motion.div>
                         ))}
-                    </motion.div>
-                    
-                    {/* Fade Edges */}
-                    <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-[#111] to-transparent z-10"></div>
-                    <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-[#111] to-transparent z-10"></div>
+                    </div>
                 </div>
             </section>
 
-            {/* SCREEN 5: ELEGANT FOOTER */}
-            <section className="bg-black pt-20">
-                <div className="w-full h-[1px] bg-white/10 mb-20 max-w-7xl mx-auto"></div>
-                {/* Embedded within the regular footer to maintain structure while feeling deeply integrated */}
-                <div className="opacity-80 hover:opacity-100 transition-opacity">
-                    <Footer />
-                </div>
+            {/* SECTION 3: INFINITE SCROLL MARQUEE */}
+            <section className="py-20 border-y border-white/5 overflow-hidden bg-black/50">
+                <motion.div 
+                    animate={{ x: [0, -1000] }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    className="flex gap-8 whitespace-nowrap"
+                >
+                    {[...sliderImages, ...sliderImages].map((img, idx) => (
+                        <div key={idx} className="w-80 h-48 rounded-xl overflow-hidden grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-crosshair">
+                            <img src={img} className="w-full h-full object-cover" alt="Gaming Brand" />
+                        </div>
+                    ))}
+                </motion.div>
             </section>
+
+            {/* FOOTER */}
+            <Footer />
         </div>
     );
 };
 
 export default Landing;
+
