@@ -28,9 +28,9 @@ const Login = () => {
             alert("Login successful!");
             navigate("/shop"); // redirect to homepage
         } catch (err) {
-            console.error(err);
-            if (err.message && err.message.includes("is not valid JSON")) {
-                setError("API Configuration Error: The server returned an HTML error page. Please correctly set your VITE_API_URL environment variable on your live server to point to your Railway backend (e.g. https://your-railway-url.app/trpc).");
+            console.error("Login error:", err);
+            if (err.message && (err.message.includes("is not valid JSON") || err.message.includes("Failed to fetch"))) {
+                setError("API Connection Error: Cannot reach the backend. Please check: 1. Your VITE_API_URL in Vercel settings (e.g. https://your-backend.up.railway.app/trpc). 2. That your Railway backend is actually running. 3. CORS is properly configured.");
             } else {
                 setError(err.message || "Invalid credentials. Please try again.");
             }
