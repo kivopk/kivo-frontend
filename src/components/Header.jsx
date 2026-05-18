@@ -88,9 +88,14 @@ const Header = () => {
                             </div>
                         </div>
                     ) : (
-                        <Link to="/login" className="hidden md:block text-[10px] font-black uppercase tracking-widest border border-white/20 px-6 py-2 hover:bg-white hover:text-black transition-all">
-                            Sign In
-                        </Link>
+                        <div className="hidden md:flex items-center gap-3">
+                            <Link to="/login" className="text-[10px] font-black uppercase tracking-widest border border-white/20 px-5 py-2 hover:bg-white hover:text-black transition-all">
+                                Sign In
+                            </Link>
+                            <Link to="/signup" className="text-[10px] font-black uppercase tracking-widest bg-white text-black border border-white px-5 py-2 hover:bg-transparent hover:text-white transition-all">
+                                Sign Up
+                            </Link>
+                        </div>
                     )}
 
                     {/* Mobile Menu Toggle */}
@@ -120,13 +125,22 @@ const Header = () => {
                             </Link>
                         ))}
                         {!user && (
-                            <Link 
-                                to="/login" 
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="mt-4 bg-white text-black text-center py-4 font-black uppercase tracking-widest"
-                            >
-                                Sign In
-                            </Link>
+                            <div className="mt-4 flex flex-col gap-3">
+                                <Link 
+                                    to="/login" 
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="bg-transparent border border-white/20 text-white text-center py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link 
+                                    to="/signup" 
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="bg-white text-black text-center py-4 font-black uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all"
+                                >
+                                    Sign Up
+                                </Link>
+                            </div>
                         )}
                     </motion.div>
                 )}
