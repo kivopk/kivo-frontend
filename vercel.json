@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/trpc/(.*)",
+      "dest": "https://kivo-backend-production.up.railway.app/trpc/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {
