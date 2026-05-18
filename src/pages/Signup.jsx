@@ -34,8 +34,14 @@ const Signup = () => {
             }, 2000);
         } catch (err) {
             console.error("Signup error:", err);
-            if (err.message && (err.message.includes("is not valid JSON") || err.message.includes("Failed to fetch"))) {
-                setError("API Connection Error: Cannot reach the backend. Please check your VITE_API_URL settings.");
+            const isConnectionError = err.message && (
+                err.message.includes("is not valid JSON") || 
+                err.message.includes("Failed to fetch") || 
+                err.message.includes("transform response") || 
+                err.message.includes("parse response")
+            );
+            if (isConnectionError) {
+                setError("API Connection Error: Cannot reach the backend. Please check if your Railway or Render backend service is running or suspended.");
             } else {
                 setError(err.message || "Registration failed. User may already exist.");
             }
