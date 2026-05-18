@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, User, ChevronDown } from "lucide-react";
 import { trpc } from "../services/trpc";
 import kivoLogo from "../assets/kivo-logo.jpeg";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -133,8 +134,5 @@ const Header = () => {
         </header>
     );
 };
-
-export default Header;
-
 
 export default Header;
