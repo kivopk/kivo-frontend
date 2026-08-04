@@ -1,167 +1,248 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import Header from '../components/Header';
-import { useNavigate } from 'react-router-dom';
-import { trpc } from '../services/trpc';
-import { customProducts } from '../utils/dummyData';
-import { Star, ShoppingCart } from 'lucide-react';
+import Footer from '../components/Footer';
+import { GAMING_PRODUCTS, GAMING_CATEGORIES, addToCart } from '../utils/gamingProducts';
 
 const ProductList = () => {
-    const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
-    const [toast, setToast] = useState("");
-    
-    // Filters logic
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [priceRange, setPriceRange] = useState(null);
-    const [sortOption, setSortOption] = useState("Featured");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const initialCategory = searchParams.get('category') || 'all';
+  const initialSearch = searchParams.get('search') || '';
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const data = await trpc.product.list.query({ take: 50 });
-                if (data && data.length > 5) setProducts(data);
-                else setProducts(customProducts);
-            } catch (error) {
-                setProducts(customProducts);
-            }
-        };
-        fetchProducts();
-    }, []);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [sortBy, setSortBy] = useState('latest');
+  const [maxPrice, setMaxPrice] = useState(300000);
+  const [notification, setNotification] = useState('');
 
-    const addToCart = async (product) => {
-        try {
-            await trpc.cart.addToCart.mutate({ productId: product.id, quantity: 1 });
-            window.dispatchEvent(new Event('cartUpdated'));
-            showToast("Added to Cart seamlessly ✨");
-        } catch (error) {
-            const localCart = JSON.parse(localStorage.getItem('kivo_cart') || '[]');
-            const existing = localCart.find(item => item.product.id === product.id);
-            if(existing) {
-                existing.quantity += 1;
-            } else {
-                localCart.push({ product, quantity: 1 });
-            }
-            localStorage.setItem('kivo_cart', JSON.stringify(localCart));
-            window.dispatchEvent(new Event('cartUpdated'));
-            showToast("Added to local cart ✨");
-        }
-    };
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSelectedCategory(params.get('category') || 'all');
+    setSearchQuery(params.get('search') || '');
+  }, [location.search]);
 
-    const showToast = (msg) => {
-        setToast(msg);
-        setTimeout(() => setToast(""), 2000);
-    };
-
-    const handleCategoryChange = (category) => {
-        if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter(c => c !== category));
-        } else {
-            setSelectedCategories([...selectedCategories, category]);
-        }
-    };
-
-    // Derived State for Rendering
-    let displayedProducts = [...products];
-
-    // 1. Filter Category
-    if (selectedCategories.length > 0) {
-        displayedProducts = displayedProducts.filter(p => selectedCategories.includes(p.category));
+  const handleCategorySelect = (catId) => {
+    setSelectedCategory(catId);
+    const params = new URLSearchParams(location.search);
+    if (catId === 'all') {
+      params.delete('category');
+    } else {
+      params.set('category', catId);
     }
+    navigate({ search: params.toString() });
+  };
 
-    // 2. Filter Price
-    if (priceRange === 'under25') displayedProducts = displayedProducts.filter(p => p.price < 25);
-    else if (priceRange === '25to50') displayedProducts = displayedProducts.filter(p => p.price >= 25 && p.price <= 50);
-    else if (priceRange === '50to100') displayedProducts = displayedProducts.filter(p => p.price > 50 && p.price <= 100);
-    else if (priceRange === 'over100') displayedProducts = displayedProducts.filter(p => p.price > 100);
+  const handleAddToCart = (product, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, 1);
+    setNotification(`Added "${product.name}" to cart!`);
+    setTimeout(() => setNotification(''), 3000);
+  };
 
-    // 3. Sort
-    if (sortOption === "Price: Low to High") displayedProducts.sort((a,b) => a.price - b.price);
-    else if (sortOption === "Price: High to Low") displayedProducts.sort((a,b) => b.price - a.price);
+  // Filter products based on search, category, and max price
+  let filtered = GAMING_PRODUCTS.filter((product) => {
+    const matchesCat = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesSearch = !searchQuery || 
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      product.categoryName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.platform.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
+  });
 
-    return (
-        <div className="bg-[#f8f9fa] min-h-screen">
-            <Header />
-            <div className="max-w-screen-2xl mx-auto flex p-4 mt-[72px]">
-                {/* Sidebar Filters */}
-                <div className="w-[250px] hidden md:block bg-white p-6 mr-6 rounded-2xl shadow-sm border border-gray-100 h-fit">
-                    <h2 className="font-black text-xl mb-6">Filters</h2>
-                    <div className="mb-8">
-                        <h3 className="font-bold text-gray-800 mb-3">Category</h3>
-                        <div className="flex flex-col space-y-3 text-sm text-gray-600">
-                            {["Electronics", "Clothing", "Home & Kitchen"].map(cat => (
-                                <label key={cat} className="flex items-center cursor-pointer group">
-                                    <input 
-                                        type="checkbox" 
-                                        className="mr-3 w-4 h-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
-                                        checked={selectedCategories.includes(cat)}
-                                        onChange={() => handleCategoryChange(cat)}
-                                    /> 
-                                    <span className="group-hover:text-black transition-colors">{cat}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-gray-800 mb-3">Price</h3>
-                        <div className="flex flex-col space-y-3 text-sm text-gray-600">
-                            <label className="flex items-center cursor-pointer group"><input type="radio" name="price" onChange={() => setPriceRange(null)} className="mr-3 w-4 h-4 text-black focus:ring-black cursor-pointer" defaultChecked /> <span className="group-hover:text-black">Any Price</span></label>
-                            <label className="flex items-center cursor-pointer group"><input type="radio" name="price" onChange={() => setPriceRange('under25')} className="mr-3 w-4 h-4 text-black focus:ring-black cursor-pointer" /> <span className="group-hover:text-black">Under $25</span></label>
-                            <label className="flex items-center cursor-pointer group"><input type="radio" name="price" onChange={() => setPriceRange('25to50')} className="mr-3 w-4 h-4 text-black focus:ring-black cursor-pointer" /> <span className="group-hover:text-black">$25 - $50</span></label>
-                            <label className="flex items-center cursor-pointer group"><input type="radio" name="price" onChange={() => setPriceRange('50to100')} className="mr-3 w-4 h-4 text-black focus:ring-black cursor-pointer" /> <span className="group-hover:text-black">$50 - $100</span></label>
-                            <label className="flex items-center cursor-pointer group"><input type="radio" name="price" onChange={() => setPriceRange('over100')} className="mr-3 w-4 h-4 text-black focus:ring-black cursor-pointer" /> <span className="group-hover:text-black">Over $100</span></label>
-                        </div>
-                    </div>
-                </div>
+  // Sort filtered products
+  if (sortBy === 'price_asc') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (sortBy === 'price_desc') {
+    filtered.sort((a, b) => b.price - a.price);
+  } else if (sortBy === 'rating') {
+    filtered.sort((a, b) => b.rating - a.rating);
+  }
 
-                {/* Product Grid */}
-                <div className="flex-grow">
-                    <div className="flex justify-between items-center bg-white px-6 py-4 mb-6 rounded-2xl shadow-sm border border-gray-100">
-                        <p className="text-sm font-medium text-gray-600">Showing {displayedProducts.length} results</p>
-                        <select 
-                            className="border border-gray-200 rounded-lg py-2 px-4 shadow-sm text-sm bg-white font-medium focus:ring-2 focus:ring-black outline-none"
-                            value={sortOption}
-                            onChange={(e) => setSortOption(e.target.value)}
-                        >
-                            <option>Featured</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                        </select>
-                    </div>
+  return (
+    <div className="min-h-screen bg-black text-white font-sans flex flex-col selection:bg-red-600 selection:text-white">
+      <Header />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {displayedProducts.map((product) => (
-                            <div key={product.id} className="bg-white p-6 z-30 flex flex-col rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100 group">
-                                <div className="bg-gray-50 rounded-2xl p-4 mb-4 cursor-pointer overflow-hidden relative" onClick={() => navigate(`/product/${product.id}`)}>
-                                    <img src={product.image} alt={product.name} className="h-48 w-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" />
-                                </div>
-                                <h3 className="text-lg font-bold line-clamp-2 hover:underline cursor-pointer decoration-2 underline-offset-4 text-gray-900 leading-tight mb-1" onClick={() => navigate(`/product/${product.id}`)}>{product.name}</h3>
-                                <div className="flex items-center text-amazon_yellow my-2 gap-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            className={`w-3.5 h-3.5 ${i < Math.floor(product.rating) ? "fill-amazon_yellow" : "text-gray-200"}`}
-                                        />
-                                    ))}
-                                    <span className="text-xs font-semibold text-gray-400 ml-1">({product.reviews})</span>
-                                </div>
-                                <div className="text-2xl font-black mb-4 tracking-tight mt-auto text-gray-900">${product.price}</div>
-                                <button onClick={() => addToCart(product)} className="w-full bg-black py-3 rounded-full font-bold text-white shadow-sm hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                                    <ShoppingCart className="w-4 h-4"/> Add to Cart
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Toast */}
-            {toast && (
-                <div className="fixed bottom-8 right-8 bg-black text-white px-6 py-3 rounded-xl shadow-2xl z-50 animate-bounce font-medium text-sm">
-                    {toast}
-                </div>
-            )}
+      {/* Floating Notification */}
+      {notification && (
+        <div className="fixed bottom-6 right-6 z-50 bg-red-600 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <span className="text-xs font-black uppercase tracking-wider">{notification}</span>
         </div>
-    );
+      )}
+
+      {/* Page Breadcrumb & Header */}
+      <div className="bg-zinc-950 border-b border-white/10 py-6">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-red-500 mb-1 flex items-center gap-2">
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <span>/</span>
+              <span>Shop Products</span>
+            </div>
+            <h1 className="text-3xl font-black uppercase tracking-tight text-white italic">
+              {selectedCategory === 'all' ? 'All Gaming Products' : GAMING_CATEGORIES.find(c => c.id === selectedCategory)?.name || 'Products'}
+            </h1>
+          </div>
+
+          <div className="text-xs text-gray-400">
+            Showing <span className="text-white font-bold">{filtered.length}</span> of {GAMING_PRODUCTS.length} total products
+          </div>
+        </div>
+      </div>
+
+      {/* Main Layout: Sidebar & Product Grid */}
+      <div className="max-w-7xl mx-auto px-4 py-8 w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Filter Sidebar (Sky Games Style) */}
+        <aside className="lg:col-span-3 space-y-6">
+          {/* Categories Sidebar */}
+          <div className="bg-zinc-900 border border-white/10 p-5 rounded-2xl space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-widest text-white border-l-2 border-red-600 pl-2">
+              Product Categories
+            </h3>
+
+            <div className="space-y-1">
+              {GAMING_CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategorySelect(cat.id)}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-between ${
+                    selectedCategory === cat.id
+                      ? 'bg-red-600 text-white font-bold shadow-md'
+                      : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    {cat.icon && <span>{cat.icon}</span>}
+                    <span>{cat.name}</span>
+                  </span>
+                  <span className="text-[10px] opacity-70">({cat.count})</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Reset Filters Box */}
+          {(selectedCategory !== 'all' || searchQuery) && (
+            <button
+              onClick={() => {
+                setSelectedCategory('all');
+                setSearchQuery('');
+                navigate('/shop');
+              }}
+              className="w-full bg-white/10 hover:bg-red-600 border border-white/10 text-white text-xs font-black uppercase tracking-wider py-3 rounded-xl transition-colors"
+            >
+              Clear All Filters
+            </button>
+          )}
+        </aside>
+
+        {/* Right Main Catalog Content */}
+        <main className="lg:col-span-9 space-y-6">
+          {/* Top Sort & Active Search Controls */}
+          <div className="bg-zinc-900/60 border border-white/10 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            {searchQuery ? (
+              <div className="text-xs text-gray-300">
+                Search results for: <span className="text-red-500 font-bold">"{searchQuery}"</span>
+              </div>
+            ) : (
+              <div className="text-xs text-gray-400">Sort and filter gaming catalog</div>
+            )}
+
+            <div className="flex items-center gap-2 text-xs">
+              <label className="text-gray-400 font-bold uppercase tracking-wider">Sort By:</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-black border border-white/20 text-white rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-red-500"
+              >
+                <option value="latest">Latest Releases</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          {filtered.length === 0 ? (
+            <div className="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 text-center space-y-4">
+              <div className="text-4xl">🎮</div>
+              <h3 className="text-lg font-black uppercase tracking-tight text-white">No Products Found</h3>
+              <p className="text-xs text-gray-400 max-w-md mx-auto">
+                We couldn't find any products matching your selected category or search term. Try resetting your search filter.
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                  navigate('/shop');
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl transition-colors"
+              >
+                Reset Catalog
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {filtered.map((product) => (
+                <div
+                  key={product.id}
+                  onClick={() => navigate(`/product/${product.slug}`)}
+                  className="bg-zinc-900 border border-white/10 hover:border-red-500 rounded-2xl p-4 cursor-pointer transition-all hover:shadow-2xl hover:shadow-red-600/10 flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="relative overflow-hidden rounded-xl bg-black aspect-square mb-4">
+                      {product.isHot && (
+                        <span className="absolute top-2 left-2 z-10 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">
+                          HOT
+                        </span>
+                      )}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-red-500 block">
+                        {product.platform}
+                      </span>
+                      <h3 className="text-sm font-bold text-white group-hover:text-red-400 transition-colors line-clamp-2">
+                        {product.name}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                    <div>
+                      <span className="text-sm font-black text-white block">{product.pricePKR}</span>
+                      {product.oldPricePKR && (
+                        <span className="text-[10px] text-gray-500 line-through block">{product.oldPricePKR}</span>
+                      )}
+                    </div>
+                    <button
+                      onClick={(e) => handleAddToCart(product, e)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default ProductList;
